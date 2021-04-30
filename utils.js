@@ -1,7 +1,3 @@
-'use strict';
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
 function isCorrectVal(variable, notBezero) {
   var result = true;
 
@@ -44,6 +40,4 @@ function isEmptyObject(obj) {
   return true;
 }
 
-exports.isCorrectVal = isCorrectVal;
-exports.isObject = isObject;
-exports.isEmptyObject = isEmptyObject;
+export { isCorrectVal, isObject, isEmptyObject };

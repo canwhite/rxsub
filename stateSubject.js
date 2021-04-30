@@ -1,13 +1,11 @@
-'use strict';
-
-var rxjs = require('rxjs');
+import { Observable } from 'rxjs';
 
 function StateSubject(value) {
   this.observerList = [];
   this.value = value;
 }
 
-StateSubject.prototype = Object.create(rxjs.Observable.create(function (observer) {
+StateSubject.prototype = Object.create(Observable.create(function (observer) {
   if (typeof this.value !== "undefined") observer.next(this.value);
   this.observerList.push(observer);
 }));
@@ -19,4 +17,4 @@ StateSubject.prototype.next = function (val) {
   });
 };
 
-module.exports = StateSubject;
+export default StateSubject;

@@ -1,8 +1,4 @@
-'use strict';
-
-function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
-
-var store = _interopDefault(require('./store.js'));
+import store from './store.js';
 
 /* import eventBus from "./eventBus";
 import { isCorrectVal } from "./utils"; */
@@ -32,4 +28,4 @@ var dispatch = function dispatch(stateName, action) {
   stateMap[stateName]["producer"](action);
 };
 
-module.exports = dispatch;
+export default dispatch;

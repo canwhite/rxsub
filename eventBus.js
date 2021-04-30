@@ -1,7 +1,5 @@
-'use strict';
+import { Subject } from 'rxjs';
 
-var rxjs = require('rxjs');
+var eventBus = new Subject();
 
-var eventBus = new rxjs.Subject();
-
-module.exports = eventBus;
+export default eventBus;

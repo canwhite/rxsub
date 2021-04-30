@@ -1,19 +1,5 @@
-'use strict';
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
-function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
-
-var state_js = _interopDefault(require('./state.js'));
-var eventBus_js = _interopDefault(require('./eventBus.js'));
-var dispatch_js = _interopDefault(require('./dispatch.js'));
-var fromAction_js = _interopDefault(require('./fromAction.js'));
-var subscription_js = _interopDefault(require('./subscription.js'));
-
-
-
-exports.state = state_js;
-exports.eventBus = eventBus_js;
-exports.dispatch = dispatch_js;
-exports.fromAction = fromAction_js;
-exports.subscription = subscription_js;
+export { default as state } from './state.js';
+export { default as eventBus } from './eventBus.js';
+export { default as dispatch } from './dispatch.js';
+export { default as fromAction } from './fromAction.js';
+export { default as subscription } from './subscription.js';

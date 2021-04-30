@@ -1,17 +1,13 @@
-'use strict';
-
-function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
-
-var _extends = _interopDefault(require('@babel/runtime/helpers/extends'));
-var _defineProperty = _interopDefault(require('@babel/runtime/helpers/defineProperty'));
-var _classCallCheck = _interopDefault(require('@babel/runtime/helpers/classCallCheck'));
-var _createClass = _interopDefault(require('@babel/runtime/helpers/createClass'));
-var _possibleConstructorReturn = _interopDefault(require('@babel/runtime/helpers/possibleConstructorReturn'));
-var _getPrototypeOf = _interopDefault(require('@babel/runtime/helpers/getPrototypeOf'));
-var _inherits = _interopDefault(require('@babel/runtime/helpers/inherits'));
-var React = _interopDefault(require('react'));
-var store = _interopDefault(require('./store.js'));
-var utils_js = require('./utils.js');
+import _extends from '@babel/runtime/helpers/extends';
+import _defineProperty from '@babel/runtime/helpers/defineProperty';
+import _classCallCheck from '@babel/runtime/helpers/classCallCheck';
+import _createClass from '@babel/runtime/helpers/createClass';
+import _possibleConstructorReturn from '@babel/runtime/helpers/possibleConstructorReturn';
+import _getPrototypeOf from '@babel/runtime/helpers/getPrototypeOf';
+import _inherits from '@babel/runtime/helpers/inherits';
+import React from 'react';
+import store from './store.js';
+import { isObject, isCorrectVal } from './utils.js';
 
 var eventLog = store.eventLog;
 /**
@@ -25,7 +21,7 @@ var subscription = function subscription(observablesMap, inputOptions) {
   var options = inputOptions || {};
 
   var handler = function handler(Comp) {
-    if (!utils_js.isObject(observablesMap)) throw new TypeError("\u65B9\u6CD5subscription()\u7684\u53C2\u6570observablesMap\u5FC5\u987B\u662Fobject\u7C7B\u578B");
+    if (!isObject(observablesMap)) throw new TypeError("\u65B9\u6CD5subscription()\u7684\u53C2\u6570observablesMap\u5FC5\u987B\u662Fobject\u7C7B\u578B");
 
     var Permeate =
     /*#__PURE__*/
@@ -52,7 +48,7 @@ var subscription = function subscription(observablesMap, inputOptions) {
           throw new TypeError("\u65B9\u6CD5subscription()\u7684\u53C2\u6570observablesMap\u4E0D\u5141\u8BB8\u4F20\u4E00\u4E2A\u7A7A\u7684object");
         }
 
-        _this.state = Object.assign({}, _this._innerObservableMaps, utils_js.isCorrectVal(options.defaultProps) ? options.defaultProps : {});
+        _this.state = Object.assign({}, _this._innerObservableMaps, isCorrectVal(options.defaultProps) ? options.defaultProps : {});
         return _this;
       }
 
@@ -105,4 +101,4 @@ var subscription = function subscription(observablesMap, inputOptions) {
   return handler;
 };
 
-module.exports = subscription;
+export default subscription;

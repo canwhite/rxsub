@@ -1,13 +1,9 @@
-'use strict';
-
-function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
-
-var utils_js = require('./utils.js');
-var store = _interopDefault(require('./store.js'));
-var rxjs = require('rxjs');
-var operators = require('rxjs/operators');
-var pipe = require('rxjs/internal/util/pipe');
-var eventBus = _interopDefault(require('./eventBus.js'));
+import { isCorrectVal } from './utils.js';
+import store from './store.js';
+import { Subject, of } from 'rxjs';
+import { pluck, filter, switchMap } from 'rxjs/operators';
+import { pipeFromArray } from 'rxjs/internal/util/pipe';
+import eventBus from './eventBus.js';
 
 var eventLog = store.eventLog;
 
@@ -22,12 +18,12 @@ var fromAction = function fromAction(type, options) {
 
   };
   options = Object.assign({}, _options, options);
-  var event$ = eventBus.pipe(operators.pluck(type), operators.filter(function (event) {
-    if (!utils_js.isCorrectVal(event)) return false;
-    if (!utils_js.isCorrectVal(event.payload)) event.payload = {};
-    if (!utils_js.isCorrectVal(event.options)) event.options = {};
+  var event$ = eventBus.pipe(pluck(type), filter(function (event) {
+    if (!isCorrectVal(event)) return false;
+    if (!isCorrectVal(event.payload)) event.payload = {};
+    if (!isCorrectVal(event.options)) event.options = {};
 
-    if (!utils_js.isCorrectVal(eventLog.pushHeadersMap[event.type])) {
+    if (!isCorrectVal(eventLog.pushHeadersMap[event.type])) {
       eventLog.pushHeadersMap[event.type] = {
         event: event,
         lastModifyId: new Date().getTime()
@@ -53,10 +49,10 @@ var fromAction = function fromAction(type, options) {
   function generateObs(obs$) {
     _subscription.unsubscribe();
 
-    var obs$$ = new rxjs.Subject();
+    var obs$$ = new Subject();
     obs$$.__type__ = type;
 
-    var _obs$ = obs$.pipe(operators.switchMap(function (event) {
+    var _obs$ = obs$.pipe(switchMap(function (event) {
       var pushHeaders = eventLog.pushHeadersMap[event.type];
       var hasModified = obs$$.lastModifyId !== pushHeaders.lastModifyId; // 判断是否有缓存数据
 
@@ -67,7 +63,7 @@ var fromAction = function fromAction(type, options) {
           case "eventCache":
             cacheData = eventLog.dataMap[event.type];
 
-            if (!utils_js.isCorrectVal(cacheData)) {
+            if (!isCorrectVal(cacheData)) {
               hasModified = true;
               pushHeaders.lastModifyId = new Date().getTime();
             }
@@ -77,8 +73,8 @@ var fromAction = function fromAction(type, options) {
       }
 
       event.hasModified = hasModified;
-      return hasModified ? operations.length === 0 ? rxjs.of(event) : pipe.pipeFromArray(operations)(rxjs.of(event)) : rxjs.of(cacheData);
-    }), operators.filter(function (data) {
+      return hasModified ? operations.length === 0 ? of(event) : pipeFromArray(operations)(of(event)) : of(cacheData);
+    }), filter(function (data) {
       var canPass = !(data === null || typeof data === "undefined");
       var pushHeaders = eventLog.pushHeadersMap[type];
       var event = pushHeaders.event;
@@ -117,4 +113,4 @@ var fromAction = function fromAction(type, options) {
   return processEvent$;
 };
 
-module.exports = fromAction;
+export default fromAction;

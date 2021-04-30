@@ -1,17 +1,13 @@
-'use strict';
-
-function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
-
-var _classCallCheck = _interopDefault(require('@babel/runtime/helpers/classCallCheck'));
-var _createClass = _interopDefault(require('@babel/runtime/helpers/createClass'));
-var _defineProperty = _interopDefault(require('@babel/runtime/helpers/defineProperty'));
-var utils_js = require('./utils.js');
-var rxjs = require('rxjs');
-var operators = require('rxjs/operators');
-var eventBus = _interopDefault(require('./eventBus.js'));
-var fromAction = _interopDefault(require('./fromAction.js'));
-var StateSubject = _interopDefault(require('./stateSubject.js'));
-var store = _interopDefault(require('./store.js'));
+import _classCallCheck from '@babel/runtime/helpers/classCallCheck';
+import _createClass from '@babel/runtime/helpers/createClass';
+import _defineProperty from '@babel/runtime/helpers/defineProperty';
+import { isCorrectVal, isObject } from './utils.js';
+import { isObservable, of, merge, defer } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import eventBus from './eventBus.js';
+import fromAction from './fromAction.js';
+import StateSubject from './stateSubject.js';
+import store from './store.js';
 
 var stateMap = store.stateMap;
 
@@ -27,29 +23,29 @@ function () {
 
     this.name = options.name;
 
-    if (utils_js.isCorrectVal(stateMap[this.name])) {
+    if (isCorrectVal(stateMap[this.name])) {
       throw new Error("\u540D\u4E3A'".concat(this.name, "'\u7684\u72B6\u6001\u6570\u636E\u5DF2\u5B58\u5728\uFF0C\u4E0D\u80FD\u91CD\u590D\u521B\u5EFA\uFF01"));
     }
 
     this.defaultValue = options.defaultValue;
     this.value = options.defaultValue;
-    this.initial$ = rxjs.isObservable(options.initial) ? options.initial : rxjs.of(this.value);
+    this.initial$ = isObservable(options.initial) ? options.initial : of(this.value);
 
-    if (utils_js.isCorrectVal(options.producer)) {
+    if (isCorrectVal(options.producer)) {
       this._producer = options.producer;
 
       var observableFactory = function observableFactory(action) {
-        if (!utils_js.isObject(action)) {
-          return rxjs.of(action);
-        } else if (utils_js.isObject(action) && utils_js.isCorrectVal(action.type)) {
-          return rxjs.defer(function () {
+        if (!isObject(action)) {
+          return of(action);
+        } else if (isObject(action) && isCorrectVal(action.type)) {
+          return defer(function () {
             var _result = action.result;
-            return rxjs.isObservable(_result) ? _result : rxjs.of(_result);
+            return isObservable(_result) ? _result : of(_result);
           });
         }
       };
 
-      this.subscription = rxjs.merge(this.initial$, fromAction(this.name)).pipe(operators.switchMap(observableFactory)).subscribe(function (val) {
+      this.subscription = merge(this.initial$, fromAction(this.name)).pipe(switchMap(observableFactory)).subscribe(function (val) {
         _this.value = val;
         state$.next(val);
       }, function (err) {
@@ -89,4 +85,4 @@ function state(options) {
   return state$;
 }
 
-module.exports = state;
+export default state;
