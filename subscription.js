@@ -11,7 +11,11 @@ import { isObject, isCorrectVal } from "./utils";
 */
 const subscription = function(observablesMap, inputOptions) {
   let options = inputOptions || {};
-
+  /*
+  这部分是一个HOC，返回的也是一个组件，
+  复杂逻辑自己实现了
+  在这里主要是为了把值订阅了给到组件
+  */
   const handler = function(Comp) {
     if (!isObject(observablesMap))
       throw new TypeError(`方法subscription()的参数observablesMap必须是object类型`);
