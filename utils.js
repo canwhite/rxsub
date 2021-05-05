@@ -1,19 +1,15 @@
 function isCorrectVal(variable, notBezero) {
   var result = true;
+
   if (typeof variable === "string") {
-    if (
-      variable === "" ||
-      variable === "undefined" ||
-      variable === "null" ||
-      variable === "NaN" ||
-      variable === "Infinity"
-    ) {
+    if (variable === "" || variable === "undefined" || variable === "null" || variable === "NaN" || variable === "Infinity") {
       result = false;
     }
   } else if (typeof variable === "number") {
     if (isNaN(variable) || !isFinite(variable)) {
       result = false;
     }
+
     if (notBezero) return variable > 0;
   } else if (variable === null) {
     result = false;
@@ -28,6 +24,7 @@ function isCorrectVal(variable, notBezero) {
       result = false;
     }
   }
+
   return result;
 }
 
@@ -39,7 +36,8 @@ function isEmptyObject(obj) {
   for (var key in obj) {
     return false;
   }
+
   return true;
 }
 
-export { isCorrectVal, isObject, isEmptyObject }
+export { isCorrectVal, isObject, isEmptyObject };
