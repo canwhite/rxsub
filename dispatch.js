@@ -1,10 +1,9 @@
-import store from './store.js';
-
 /* import eventBus from "./eventBus";
 import { isCorrectVal } from "./utils"; */
-var stateMap = store.stateMap;
+import store from './store';
+const stateMap = store.stateMap;
 
-var dispatch = function dispatch(stateName, action) {
+const dispatch = function(stateName, action) {
   /* if (!Array.isArray(actions)) {
     actions = [actions];
   }
@@ -15,17 +14,17 @@ var dispatch = function dispatch(stateName, action) {
       action = { type };
     }
     action.type = `${stateName}#${action.type}`;
-     map[action.type] = action;
+
+    map[action.type] = action;
   });
   eventBus.next(map); */
-  if (typeof action === "string") {
-    var type = action;
-    action = {
-      type: type
-    };
-  }
 
+  if (typeof action === "string") {
+    const type = action;
+    action = { type };
+  }
+  
   stateMap[stateName]["producer"](action);
-};
+}
 
 export default dispatch;

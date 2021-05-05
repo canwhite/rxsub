@@ -1,5 +1,3 @@
-import { Subject } from 'rxjs';
+import { Subject } from "rxjs";
 
-var eventBus = new Subject();
-
-export default eventBus;
+export default new Subject();
