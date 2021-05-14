@@ -134,7 +134,10 @@ export default App;
 ```
 
 POST:  
-[build](https://github.com/canwhite/rxsub-build)
+[build](https://github.com/canwhite/rxsub-build)  
+
+Demo:  
+[demo](https://github.com/canwhite/qc-react-rxsub)  
 
 Origion:  
 
